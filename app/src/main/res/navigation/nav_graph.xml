@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/list_records"
+    >
+
+    <fragment
+        android:id="@+id/new_record"
+        android:name="com.to_do_list.fragment.AddNewRecordFragment">
+        <action
+            android:id="@+id/new_record_to_list_records"
+            app:destination="@+id/list_records"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/edit_record"
+        android:name="com.to_do_list.fragment.EditRecordFragment">
+        <action
+            android:id="@+id/edit_record_to_list_records"
+            app:destination="@+id/list_records"
+            />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/list_records"
+        android:name="com.to_do_list.fragment.FragmentList">
+
+        <action
+            android:id="@+id/list_records_to_edit_record"
+            app:destination="@+id/edit_record"
+            />
+
+        <action
+            android:id="@+id/list_records_to_new_record"
+            app:destination="@+id/new_record"
+            />
+    </fragment>
+
+
+
+
+</navigation>

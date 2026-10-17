@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="60dp">
+
+
+    <TextView
+        android:id="@+id/for_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/MarginLeft"
+
+        android:text="Title:"
+        android:textColor="#616060"
+        android:textSize="20sp"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+
+   />
+
+    <EditText
+        android:id="@+id/input_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/MarginLeft"
+
+        app:layout_constraintTop_toBottomOf="@+id/for_title"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+
+    />
+
+    <TextView
+        android:id="@+id/for_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/MarginLeft"
+
+        android:layout_marginTop="20dp"
+
+        android:text="Text:"
+        android:textColor="#616060"
+        android:textSize="20sp"
+
+        app:layout_constraintTop_toBottomOf="@+id/input_title"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+
+        />
+
+    <EditText
+        android:id="@+id/input_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/MarginLeft"
+
+        app:layout_constraintTop_toBottomOf="@+id/for_text"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+
+        />
+
+    <Button
+        android:id="@+id/add_new_record"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+
+        style="@style/BtnAddNewRecord"
+
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

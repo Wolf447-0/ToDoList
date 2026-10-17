@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="TitleSize">20sp</dimen>
+    <dimen name="TextSize">18sp</dimen>
+    <dimen name="MarginLeft">5dp</dimen>
+</resources>
