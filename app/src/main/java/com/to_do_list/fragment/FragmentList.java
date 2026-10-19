@@ -32,6 +32,7 @@ public class FragmentList extends Fragment {
     private SQLiteDatabase db;
     private Cursor recordCursor;
     private RecyclerView recyclerView;
+    private RecordAdapter recordAdapter;
 
 
 
@@ -68,6 +69,7 @@ public class FragmentList extends Fragment {
         recyclerView = view.findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
+
         RecordAdapter.OnRecordClickListener recordClickListener = new RecordAdapter.OnRecordClickListener() {
             @Override
             public void onRecordClick(long recordId, int position) {
@@ -77,11 +79,20 @@ public class FragmentList extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putString(DatabaseHelper.COLUMN_TITLE,recordCursor.getString(0));
                 bundle.putString(DatabaseHelper.COLUMN_TEXT,recordCursor.getString(1));
+                bundle.putLong(DatabaseHelper.COLUMN_ID,recordId);
                 Navigation.findNavController(view).navigate(R.id.list_records_to_edit_record,bundle);
             }
+
+            @Override
+            public void onRemoveClick(long recordId, int position){
+                databaseHelper.deleteRecord(recordId);
+                Cursor newCursor = databaseHelper.getAllRecords();
+                recordAdapter.swapCursor(newCursor);
+            }
         };
+
         recordCursor =  db.rawQuery("select * from "+ DatabaseHelper.TABLE, null);
-        RecordAdapter recordAdapter = new RecordAdapter(getContext(),recordCursor,recordClickListener);
+        recordAdapter = new RecordAdapter(getContext(),recordCursor,recordClickListener);
 
 
         recyclerView.setAdapter(recordAdapter);

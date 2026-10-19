@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +20,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
 
    public interface OnRecordClickListener{
         void onRecordClick(long recordId, int position);
+        void onRemoveClick(long recordId, int position);
     }
     private final LayoutInflater inflater;
     private Cursor cursor;
@@ -55,6 +57,26 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
                     }
                 }
             });
+
+            holder.removeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int adapterPosition = holder.getAdapterPosition();
+                    if (adapterPosition != RecyclerView.NO_POSITION) {
+                        onClickListener.onRemoveClick(recordId, adapterPosition);
+                    }
+                }
+            });
+        }
+    }
+
+    public void swapCursor(Cursor newCursor) {
+        if (cursor != null) {
+            cursor.close();
+        }
+        cursor = newCursor;
+        if (newCursor != null) {
+            notifyDataSetChanged();
         }
     }
 
@@ -65,8 +87,10 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         final TextView titleView, textView;
+        final Button removeButton;
         ViewHolder(View view){
             super(view);
+            removeButton = itemView.findViewById(R.id.remove_button);
             titleView = view.findViewById(R.id.record_title);
             textView = view.findViewById(R.id.record_text);
         }

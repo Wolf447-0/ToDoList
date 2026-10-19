@@ -1,6 +1,7 @@
 package com.to_do_list;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -52,6 +53,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 Log.d("DatabaseHelper", ex.getMessage());
             }
         }
+    }
+
+    public void deleteRecord(long recordId){
+        create_db();
+        SQLiteDatabase database = open();
+        database.execSQL("DELETE FROM " + TABLE + " WHERE _id = " + recordId);
+    }
+
+    public Cursor getAllRecords(){
+        create_db();
+        SQLiteDatabase database = open();
+        return database.rawQuery("select * from " + TABLE,null);
     }
     public SQLiteDatabase open()throws SQLException {
 

@@ -1,5 +1,7 @@
 package com.to_do_list.fragment;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,6 +12,7 @@ import androidx.navigation.Navigation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.to_do_list.DatabaseHelper;
@@ -20,6 +23,9 @@ public class EditRecordFragment extends Fragment {
 
     private EditText title;
     private EditText text;
+    private Button changeBtn;
+    SQLiteDatabase db;
+    DatabaseHelper databaseHelper;
 
     public EditRecordFragment() {
 
@@ -30,7 +36,9 @@ public class EditRecordFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        databaseHelper = new DatabaseHelper(getContext());
+        databaseHelper.create_db();
+        db = databaseHelper.open();
     }
 
     @Override
@@ -44,9 +52,28 @@ public class EditRecordFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         title = view.findViewById(R.id.input_title);
         text = view.findViewById(R.id.input_text);
+        changeBtn = view.findViewById(R.id.change_record);
 
         title.setText(getArguments().getString(DatabaseHelper.COLUMN_TITLE));
         text.setText(getArguments().getString(DatabaseHelper.COLUMN_TEXT));
 
+        changeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                long recordId = getArguments().getLong(DatabaseHelper.COLUMN_ID);
+                ContentValues cv = new ContentValues();
+                cv.put(DatabaseHelper.COLUMN_TITLE,title.getText().toString());
+                cv.put(DatabaseHelper.COLUMN_TEXT,text.getText().toString());
+                db.update(DatabaseHelper.TABLE, cv, DatabaseHelper.COLUMN_ID + "=" + recordId, null);
+                Navigation.findNavController(view).navigate(R.id.edit_record_to_list_records);
+            }
+        });
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        db.close();
     }
 }
