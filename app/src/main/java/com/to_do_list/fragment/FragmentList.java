@@ -15,8 +15,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.SimpleCursorAdapter;
 
+import com.google.android.material.appbar.AppBarLayout;
 import com.to_do_list.DatabaseHelper;
 import com.to_do_list.R;
 import com.to_do_list.Record;
@@ -57,6 +59,7 @@ public class FragmentList extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         addBtn = view.findViewById(R.id.add_record);
 
         addBtn.setOnClickListener(new View.OnClickListener() {

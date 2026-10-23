@@ -66,8 +66,8 @@
 
     <Button
         android:id="@+id/add_new_record"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
 
         style="@style/BtnAddNewRecord"
 

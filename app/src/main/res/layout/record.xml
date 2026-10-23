@@ -9,7 +9,7 @@
         android:id="@+id/record_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginLeft="@dimen/MarginLeft"
         android:textSize="@dimen/TitleSize"
         app:layout_constraintRight_toRightOf="parent"

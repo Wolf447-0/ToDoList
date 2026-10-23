@@ -1,35 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="175dp"
+            app:expanded="false">
 
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:minHeight="80dp"
+                app:contentScrim="#2D2D76"
+                app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
 
-    <Button
-        android:id="@+id/add_record"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+                <Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:background="#2D2D76">
 
-        style="@style/BtnAddRecord"
+                    <EditText
+                        android:id="@+id/search"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:background="@drawable/rounded_edittext"
+                        android:hint="поиск"
+                        android:textColor="#111111"
+                        android:textColorHint="#686565"
+                        app:layout_collapseMode="pin" />
 
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="10dp"
+                    <ImageButton
+                        android:id="@+id/sort_button_id"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="right|center_vertical"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginRight="30dp"
+                        android:background="@drawable/sort"
+                        app:layout_collapseMode="pin"/>
+                </Toolbar>
 
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
 
 
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+        <Button
+            android:id="@+id/add_record"
+            style="@style/BtnAddRecord"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="bottom|end"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp" />
+
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
+
