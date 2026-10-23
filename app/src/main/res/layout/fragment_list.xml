@@ -39,7 +39,12 @@
                         android:hint="поиск"
                         android:textColor="#111111"
                         android:textColorHint="#686565"
-                        app:layout_collapseMode="pin" />
+                        app:layout_collapseMode="pin"
+
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:imeOptions="actionSearch"
+                        />
 
                     <ImageButton
                         android:id="@+id/sort_button_id"

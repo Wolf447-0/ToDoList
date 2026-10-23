@@ -61,6 +61,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         database.execSQL("DELETE FROM " + TABLE + " WHERE _id = " + recordId);
     }
 
+    public Cursor getRecordByTitle(String title){
+        create_db();
+        SQLiteDatabase database = open();
+        return database.rawQuery("select * from " + TABLE + " where title = " + title, null);
+    }
+
     public Cursor getAllRecords(){
         create_db();
         SQLiteDatabase database = open();
