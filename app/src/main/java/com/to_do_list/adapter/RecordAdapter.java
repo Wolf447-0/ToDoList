@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,9 +15,18 @@ import com.to_do_list.DatabaseHelper;
 import com.to_do_list.R;
 import com.to_do_list.Record;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder>{
+
+    private static class RecordItem {
+        long id;
+        String title, text, date;
+        int important;
+    }
+
+    private List<RecordItem> itemsList = new ArrayList<>();
 
    public interface OnRecordClickListener{
         void onRecordClick(long recordId, int position);
@@ -30,6 +40,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
         this.cursor = cursor;
         this.inflater = LayoutInflater.from(context);
     }
+
     @Override
     public RecordAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -43,9 +54,18 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
             String title = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TITLE));
             String text = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TEXT));
             final long recordId = cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_ID));
-
+            int important = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_IMPORTANT));
+            String date = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_DATE));
             holder.titleView.setText(title);
             holder.textView.setText(text);
+            holder.dateView.setText(date);
+
+            if(important == 1){
+                holder.imageButton.setVisibility(View.VISIBLE);
+            }
+            else {
+                holder.imageButton.setVisibility(View.INVISIBLE);
+            }
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -86,13 +106,16 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        final TextView titleView, textView;
+        final TextView titleView, textView, dateView;
         final Button removeButton;
+        final ImageButton imageButton;
         ViewHolder(View view){
             super(view);
             removeButton = itemView.findViewById(R.id.remove_button);
             titleView = view.findViewById(R.id.record_title);
             textView = view.findViewById(R.id.record_text);
+            imageButton = view.findViewById(R.id.important_star);
+            dateView = view.findViewById(R.id.record_date);
         }
     }
 }

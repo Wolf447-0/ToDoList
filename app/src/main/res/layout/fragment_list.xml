@@ -33,79 +33,47 @@
                     android:paddingHorizontal="16dp"
                     android:background="#C2AEDC">
 
-                  <Button
-                      android:id="@+id/all_id"
-                      android:layout_height="45dp"
-                      android:layout_width="65dp"
-                      android:layout_weight="1"
-                      android:layout_margin="5dp"
-                      android:text="all"
-                      />
-
-                    <Button
-                        android:id="@+id/test1"
-                        android:layout_height="45dp"
-                        android:layout_width="65dp"
+                    <ImageButton
+                        android:id="@+id/all_id"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:layout_margin="5dp"
-                        android:text="all"
-                        />
-
-                    <Button
-                        android:id="@+id/test2"
-                        android:layout_height="45dp"
-                        android:layout_width="65dp"
-                        android:layout_weight="1"
-                        android:layout_margin="5dp"
-                        android:text="all"
-                        />
-
-                    <Button
-                        android:id="@+id/test3"
-                        android:layout_height="45dp"
-                        android:layout_width="65dp"
-                        android:layout_weight="1"
-                        android:layout_margin="5dp"
-                        android:text="all"
-                        />
-
-                </LinearLayout>
-
-                <Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:background="#2D2D76"
-                    app:layout_collapseMode="pin"
-                    android:elevation="8dp"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true">
-
-                    <EditText
-                        android:id="@+id/search"
-                        android:layout_width="250dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
-                        android:background="@drawable/rounded_edittext"
-                        android:hint="поиск"
-                        android:textColor="#111111"
-                        android:textColorHint="#686565"
-
-
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:imeOptions="actionSearch"
-                        />
+                        android:src="@drawable/all"
+                        android:scaleType="centerInside"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="Все записи" />
 
                     <ImageButton
-                        android:id="@+id/sort_button_id"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="right|center_vertical"
-                        android:layout_marginTop="30dp"
-                        android:layout_marginRight="30dp"
-                        android:background="@drawable/sort" />
-                </Toolbar>
+                        android:id="@+id/sortingByAlphabet"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:src="@drawable/sort_by_alpha"
+                        android:scaleType="centerInside"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="Сортировка по алфавиту" />
+
+                    <ImageButton
+                        android:id="@+id/sortByDate"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:src="@drawable/clock_arrow_up"
+                        android:scaleType="centerInside"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="Сортировка по дате" />
+
+                    <ImageButton
+                        android:id="@+id/sortingByImportance"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:src="@drawable/star"
+                        android:scaleType="centerInside"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="Сортировка по важности" />
+
+                </LinearLayout>
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -130,6 +98,41 @@
             android:layout_marginRight="10dp"
             android:layout_marginBottom="10dp" />
 
+        <Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="#2D2D76"
+            android:elevation="8dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            app:layout_collapseMode="pin">
+
+            <EditText
+                android:id="@+id/search"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/rounded_edittext"
+                android:hint="поиск"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+
+
+                android:maxLines="1"
+                android:textColor="#111111"
+                android:textColorHint="#686565" />
+
+            <ImageButton
+                android:id="@+id/sort_button_id"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="30dp"
+                android:background="@drawable/sort"
+                android:foreground="?attr/selectableItemBackground"/>
+        </Toolbar>
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

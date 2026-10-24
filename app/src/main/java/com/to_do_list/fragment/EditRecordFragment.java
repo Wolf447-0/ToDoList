@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.to_do_list.DatabaseHelper;
 import com.to_do_list.R;
 
@@ -65,6 +66,7 @@ public class EditRecordFragment extends Fragment {
                 cv.put(DatabaseHelper.COLUMN_TITLE,title.getText().toString());
                 cv.put(DatabaseHelper.COLUMN_TEXT,text.getText().toString());
                 db.update(DatabaseHelper.TABLE, cv, DatabaseHelper.COLUMN_ID + "=" + recordId, null);
+                Snackbar.make(view, "Запись изменена", Snackbar.LENGTH_SHORT).show();
                 Navigation.findNavController(view).navigate(R.id.edit_record_to_list_records);
             }
         });

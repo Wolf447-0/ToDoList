@@ -3,6 +3,7 @@ package com.to_do_list.fragment;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -25,6 +26,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.snackbar.Snackbar;
 import com.to_do_list.DatabaseHelper;
 import com.to_do_list.R;
 import com.to_do_list.Record;
@@ -42,11 +44,7 @@ public class FragmentList extends Fragment {
     private RecyclerView recyclerView;
     private RecordAdapter recordAdapter;
 
-
-
-    public FragmentList() {
-
-    }
+    public FragmentList() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,7 +72,16 @@ public class FragmentList extends Fragment {
         sortBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                appBarLayout.setExpanded(true, true);
+                boolean isCurrentlySelected = v.isSelected();
+
+                if (!isCurrentlySelected) {
+                    appBarLayout.setExpanded(true, true);
+                    v.setSelected(true);
+                }
+                else {
+                    appBarLayout.setExpanded(false, true);
+                    v.setSelected(false);
+                }
             }
         });
 
@@ -128,6 +135,7 @@ public class FragmentList extends Fragment {
                 databaseHelper.deleteRecord(recordId);
                 Cursor newCursor = databaseHelper.getAllRecords();
                 recordAdapter.swapCursor(newCursor);
+                Snackbar.make(view, "Запись удалена", Snackbar.LENGTH_SHORT).show();
             }
         };
 
@@ -137,22 +145,65 @@ public class FragmentList extends Fragment {
 
         recyclerView.setAdapter(recordAdapter);
 
-       Button allBtn = view.findViewById(R.id.all_id);
+
+        ImageButton allBtn = view.findViewById(R.id.all_id);
        allBtn.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               boolean isCurrentlySelected = v.isSelected();
-
-               if(isCurrentlySelected){
-                   //логика при первом клике
-               }
-               else {
-                   //логика при втором клике
-                   v.setSelected(false);
-               }
+               Cursor newCursor = databaseHelper.getAllRecords();
+               recordAdapter.swapCursor(newCursor);
            }
        });
-        //добавить еще для 3 кнопок
+
+        ImageButton SortAlphabetBtn = view.findViewById(R.id.sortingByAlphabet);
+        SortAlphabetBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isCurrentlySelected = v.isSelected();
+
+                if(!isCurrentlySelected){
+                    Cursor newCursor = databaseHelper.SortByAsc();
+                    recordAdapter.swapCursor(newCursor);
+                    v.setSelected(true);
+                }
+                else {
+                    Cursor newCursor = databaseHelper.SortByDesc();
+                    recordAdapter.swapCursor(newCursor);
+                    v.setSelected(false);
+                }
+            }
+        });
+
+        ImageButton SortImportanceBtn = view.findViewById(R.id.sortingByImportance);
+        SortImportanceBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Cursor newCursor = databaseHelper.getAllImportantRecords();
+                recordAdapter.swapCursor(newCursor);
+            }
+        });
+
+        ImageButton SortDateBtn = view.findViewById(R.id.sortByDate);
+        SortDateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isCurrentlySelected = v.isSelected();
+
+                if(!isCurrentlySelected){
+                    SortDateBtn.setImageResource(R.drawable.clock_arrow_up);
+                    Cursor newCursor = databaseHelper.SortByDateAsc();
+                    recordAdapter.swapCursor(newCursor);
+                    v.setSelected(true);
+                }
+                else {
+                    SortDateBtn.setImageResource(R.drawable.clock_arrow_down);
+                    Cursor newCursor = databaseHelper.SortByDateDesc();
+                    recordAdapter.swapCursor(newCursor);
+                    v.setSelected(false);
+                }
+            }
+        });
+
 
     }
 

@@ -20,6 +20,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_TITLE = "title";
     public static final String COLUMN_TEXT = "text";
+    public static final String COLUMN_IMPORTANT = "important";
+    public static final String COLUMN_DATE = "date";
     private Context myContext;
 
     public DatabaseHelper(Context context) {
@@ -64,13 +66,42 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor getRecordByTitle(String title){
         create_db();
         SQLiteDatabase database = open();
-        return database.rawQuery("select * from " + TABLE + " where title = " + title, null);
+        return database.rawQuery("select * from " + TABLE + " where title = ?", new String[]{title});
     }
 
     public Cursor getAllRecords(){
         create_db();
         SQLiteDatabase database = open();
         return database.rawQuery("select * from " + TABLE,null);
+    }
+
+    public Cursor SortByAsc(){
+        create_db();
+        SQLiteDatabase database = open();
+        return database.rawQuery("SELECT * FROM " + TABLE + " ORDER BY title ASC",null);
+    }
+
+    public Cursor SortByDesc(){
+        create_db();
+        SQLiteDatabase database = open();
+        return database.rawQuery("SELECT * FROM " + TABLE + " ORDER BY title DESC",null);
+    }
+
+    public Cursor SortByDateAsc(){
+        create_db();
+        SQLiteDatabase database = open();
+        return database.rawQuery("SELECT * FROM " + TABLE +" ORDER BY date ASC;",null);
+    }
+    public Cursor SortByDateDesc(){
+        create_db();
+        SQLiteDatabase database = open();
+        return database.rawQuery("SELECT * FROM " + TABLE +" ORDER BY date DESC;",null);
+    }
+
+    public Cursor getAllImportantRecords(){
+        create_db();
+        SQLiteDatabase database = open();
+        return database.rawQuery("SELECT * FROM " + TABLE + " where important = 1",null);
     }
     public SQLiteDatabase open()throws SQLException {
 
