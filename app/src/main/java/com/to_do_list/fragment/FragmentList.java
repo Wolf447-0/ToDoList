@@ -67,8 +67,16 @@ public class FragmentList extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         addBtn = view.findViewById(R.id.add_record);
-
         EditText searchEditText = view.findViewById(R.id.search);
+        AppBarLayout appBarLayout = view.findViewById(R.id.appBarLayout);
+        ImageButton sortBtn = view.findViewById(R.id.sort_button_id);
+
+        sortBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                appBarLayout.setExpanded(true, true);
+            }
+        });
 
         searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -128,6 +136,23 @@ public class FragmentList extends Fragment {
 
 
         recyclerView.setAdapter(recordAdapter);
+
+       Button allBtn = view.findViewById(R.id.all_id);
+       allBtn.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               boolean isCurrentlySelected = v.isSelected();
+
+               if(isCurrentlySelected){
+                   //логика при первом клике
+               }
+               else {
+                   //логика при втором клике
+                   v.setSelected(false);
+               }
+           }
+       });
+        //добавить еще для 3 кнопок
 
     }
 

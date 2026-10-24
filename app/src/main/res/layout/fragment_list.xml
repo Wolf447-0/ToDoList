@@ -24,11 +24,62 @@
                 app:contentScrim="#2D2D76"
                 app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="95dp"
+                    android:layout_gravity="bottom"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp"
+                    android:background="#C2AEDC">
+
+                  <Button
+                      android:id="@+id/all_id"
+                      android:layout_height="45dp"
+                      android:layout_width="65dp"
+                      android:layout_weight="1"
+                      android:layout_margin="5dp"
+                      android:text="all"
+                      />
+
+                    <Button
+                        android:id="@+id/test1"
+                        android:layout_height="45dp"
+                        android:layout_width="65dp"
+                        android:layout_weight="1"
+                        android:layout_margin="5dp"
+                        android:text="all"
+                        />
+
+                    <Button
+                        android:id="@+id/test2"
+                        android:layout_height="45dp"
+                        android:layout_width="65dp"
+                        android:layout_weight="1"
+                        android:layout_margin="5dp"
+                        android:text="all"
+                        />
+
+                    <Button
+                        android:id="@+id/test3"
+                        android:layout_height="45dp"
+                        android:layout_width="65dp"
+                        android:layout_weight="1"
+                        android:layout_margin="5dp"
+                        android:text="all"
+                        />
+
+                </LinearLayout>
+
                 <Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
-                    android:background="#2D2D76">
+                    android:background="#2D2D76"
+                    app:layout_collapseMode="pin"
+                    android:elevation="8dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true">
 
                     <EditText
                         android:id="@+id/search"
@@ -39,7 +90,7 @@
                         android:hint="поиск"
                         android:textColor="#111111"
                         android:textColorHint="#686565"
-                        app:layout_collapseMode="pin"
+
 
                         android:inputType="text"
                         android:maxLines="1"
@@ -53,8 +104,7 @@
                         android:layout_gravity="right|center_vertical"
                         android:layout_marginTop="30dp"
                         android:layout_marginRight="30dp"
-                        android:background="@drawable/sort"
-                        app:layout_collapseMode="pin"/>
+                        android:background="@drawable/sort" />
                 </Toolbar>
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
