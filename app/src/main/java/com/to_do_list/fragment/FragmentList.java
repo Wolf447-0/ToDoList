@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -99,7 +100,6 @@ public class FragmentList extends Fragment {
                     if (imm != null) {
                         imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                     }
-
                     return true;
                 }
                 return false;
@@ -116,7 +116,6 @@ public class FragmentList extends Fragment {
         recyclerView = view.findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-
         RecordAdapter.OnRecordClickListener recordClickListener = new RecordAdapter.OnRecordClickListener() {
             @Override
             public void onRecordClick(long recordId, int position) {
@@ -129,7 +128,6 @@ public class FragmentList extends Fragment {
                 bundle.putLong(DatabaseHelper.COLUMN_ID,recordId);
                 Navigation.findNavController(view).navigate(R.id.list_records_to_edit_record,bundle);
             }
-
             @Override
             public void onRemoveClick(long recordId, int position){
                 databaseHelper.deleteRecord(recordId);
@@ -142,12 +140,33 @@ public class FragmentList extends Fragment {
         recordCursor =  db.rawQuery("select * from "+ DatabaseHelper.TABLE, null);
         recordAdapter = new RecordAdapter(getContext(),recordCursor,recordClickListener);
 
-
         recyclerView.setAdapter(recordAdapter);
 
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(
+                ItemTouchHelper.UP | ItemTouchHelper.DOWN,
+                0) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView,
+                                  @NonNull RecyclerView.ViewHolder viewHolder,
+                                  @NonNull RecyclerView.ViewHolder target) {
+
+                int fromPosition = viewHolder.getAdapterPosition();
+                int toPosition = target.getAdapterPosition();
+
+                recordAdapter.moveItem(fromPosition, toPosition);
+                return true;
+            }
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            }
+        };
+
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
 
         ImageButton allBtn = view.findViewById(R.id.all_id);
-       allBtn.setOnClickListener(new View.OnClickListener() {
+        allBtn.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
                Cursor newCursor = databaseHelper.getAllRecords();

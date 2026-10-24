@@ -16,6 +16,7 @@ import com.to_do_list.R;
 import com.to_do_list.Record;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder>{
@@ -33,12 +34,11 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
         void onRemoveClick(long recordId, int position);
     }
     private final LayoutInflater inflater;
-    private Cursor cursor;
     private final OnRecordClickListener onClickListener;
     public RecordAdapter(Context context, Cursor cursor, OnRecordClickListener onClickListener) {
         this.onClickListener = onClickListener;
-        this.cursor = cursor;
         this.inflater = LayoutInflater.from(context);
+        swapCursor(cursor);
     }
 
     @Override
@@ -50,22 +50,17 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(RecordAdapter.ViewHolder holder, int position) {
-        if (cursor.moveToPosition(position)) {
-            String title = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TITLE));
-            String text = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TEXT));
-            final long recordId = cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_ID));
-            int important = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_IMPORTANT));
-            String date = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_DATE));
-            holder.titleView.setText(title);
-            holder.textView.setText(text);
-            holder.dateView.setText(date);
+        RecordItem item = itemsList.get(position);
 
-            if(important == 1){
-                holder.imageButton.setVisibility(View.VISIBLE);
-            }
-            else {
-                holder.imageButton.setVisibility(View.INVISIBLE);
-            }
+        holder.titleView.setText(item.title);
+        holder.textView.setText(item.text);
+        holder.dateView.setText(item.date);
+
+        if(item.important == 1){
+            holder.imageButton.setVisibility(View.VISIBLE);
+        } else {
+            holder.imageButton.setVisibility(View.INVISIBLE);
+        }
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -73,7 +68,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
 
                     int adapterPosition = holder.getAdapterPosition();
                     if (adapterPosition != RecyclerView.NO_POSITION) {
-                        onClickListener.onRecordClick(recordId, adapterPosition);
+                        onClickListener.onRecordClick(item.id, adapterPosition);
                     }
                 }
             });
@@ -83,26 +78,38 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
                 public void onClick(View v) {
                     int adapterPosition = holder.getAdapterPosition();
                     if (adapterPosition != RecyclerView.NO_POSITION) {
-                        onClickListener.onRemoveClick(recordId, adapterPosition);
+                        onClickListener.onRemoveClick(item.id, adapterPosition);
                     }
                 }
             });
-        }
+
     }
 
     public void swapCursor(Cursor newCursor) {
-        if (cursor != null) {
-            cursor.close();
+        itemsList.clear();
+        if (newCursor != null && newCursor.moveToFirst()) {
+            do {
+                RecordItem item = new RecordItem();
+                item.id = newCursor.getLong(newCursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_ID));
+                item.title = newCursor.getString(newCursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TITLE));
+                item.text = newCursor.getString(newCursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TEXT));
+                item.date = newCursor.getString(newCursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_DATE));
+                item.important = newCursor.getInt(newCursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_IMPORTANT));
+                itemsList.add(item);
+            } while (newCursor.moveToNext());
+            newCursor.close();
         }
-        cursor = newCursor;
-        if (newCursor != null) {
-            notifyDataSetChanged();
-        }
+        notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return cursor != null ? cursor.getCount() : 0;
+        return itemsList.size();
+    }
+
+    public void moveItem(int fromPosition, int toPosition) {
+        Collections.swap(itemsList, fromPosition, toPosition);
+        notifyItemMoved(fromPosition, toPosition);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
