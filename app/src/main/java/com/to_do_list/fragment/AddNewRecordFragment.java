@@ -23,8 +23,11 @@ import com.to_do_list.DatabaseHelper;
 import com.to_do_list.R;
 import com.to_do_list.adapter.RecordAdapter;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.Locale;
 
 
 public class AddNewRecordFragment extends Fragment {
@@ -68,9 +71,8 @@ public class AddNewRecordFragment extends Fragment {
                 String title_r = title.getText().toString();
                 String text_r = text.getText().toString();
 
-                LocalDateTime now = LocalDateTime.now();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-                String date = now.format(formatter);
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+                String date = formatter.format(new Date());
 
                 int important;
                 if (checkBox.isChecked()) {
@@ -79,9 +81,15 @@ public class AddNewRecordFragment extends Fragment {
                     important = 0;
                 }
 
-                save(title_r, text_r,important,date);
-                Snackbar.make(view, "Запись добавлена", Snackbar.LENGTH_SHORT).show();
-                Navigation.findNavController(view).navigate(R.id.new_record_to_list_records);
+                if(title_r.isEmpty() || text_r.isEmpty()){
+                    Snackbar.make(view, "Заполните все поля", Snackbar.LENGTH_SHORT).show();
+                }
+                else {
+                    save(title_r, text_r,important,date);
+                    Snackbar.make(view, "Запись добавлена", Snackbar.LENGTH_SHORT).show();
+                    Navigation.findNavController(view).navigate(R.id.new_record_to_list_records);
+                }
+
             }
         });
 

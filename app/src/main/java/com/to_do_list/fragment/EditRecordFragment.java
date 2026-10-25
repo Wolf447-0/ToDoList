@@ -19,6 +19,10 @@ import com.google.android.material.snackbar.Snackbar;
 import com.to_do_list.DatabaseHelper;
 import com.to_do_list.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 
 public class EditRecordFragment extends Fragment {
 
@@ -61,10 +65,13 @@ public class EditRecordFragment extends Fragment {
         changeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+                String newDate = formatter.format(new Date());
                 long recordId = getArguments().getLong(DatabaseHelper.COLUMN_ID);
                 ContentValues cv = new ContentValues();
                 cv.put(DatabaseHelper.COLUMN_TITLE,title.getText().toString());
                 cv.put(DatabaseHelper.COLUMN_TEXT,text.getText().toString());
+                cv.put(DatabaseHelper.COLUMN_DATE,newDate);
                 db.update(DatabaseHelper.TABLE, cv, DatabaseHelper.COLUMN_ID + "=" + recordId, null);
                 Snackbar.make(view, "Запись изменена", Snackbar.LENGTH_SHORT).show();
                 Navigation.findNavController(view).navigate(R.id.edit_record_to_list_records);
