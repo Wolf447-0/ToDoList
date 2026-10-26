@@ -7,19 +7,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
-            android:layout_height="175dp"
-            app:expanded="false">
+            android:layout_height="wrap_content"
+            app:expanded="false"
+            android:fitsSystemWindows="true">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:minHeight="80dp"
                 app:contentScrim="#2D2D76"
                 app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
@@ -27,6 +30,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="95dp"
+                    android:layout_marginTop="80dp"
                     android:layout_gravity="bottom"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
